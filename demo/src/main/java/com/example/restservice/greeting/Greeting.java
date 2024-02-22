@@ -1,4 +1,4 @@
-package com.example.demo.restservice;
+package com.example.restservice.greeting;
 
 /**Using record**/
 public record Greeting(long id, String content) { }
