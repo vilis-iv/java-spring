@@ -1,19 +1,20 @@
 package com.personal.pagilarestapi.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.vladmihalcea.hibernate.type.array.StringArrayType;
+import com.vladmihalcea.hibernate.type.search.PostgreSQLTSVectorType;
+import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.Type;
 
 import java.sql.Timestamp;
 
 @Entity
 @Data
-@Table(name = "film", schema = "public")
-public class FilmModel {
+@Table(name = "film")
+public class Film {
     @Id
-    @Column(name = "film_id")
+    @GeneratedValue
+    @Column(name = "film_id", nullable = false)
     int filmId;
 
     @Column(name = "title")
@@ -23,13 +24,13 @@ public class FilmModel {
     String description;
 
     @Column(name = "release_year")
-    int releaseYear;
+    Integer releaseYear;
 
     @Column(name = "language_id")
     int languageId;
 
     @Column(name = "original_language_id")
-    int originalLanguageId;
+    Integer originalLanguageId;
 
     @Column(name = "rental_duration")
     int rentalDuration;
@@ -38,7 +39,7 @@ public class FilmModel {
     double rentalRate;
 
     @Column(name = "length")
-    int length;
+    Integer length;
 
     @Column(name = "replacement_cost")
     double replacementCost;
@@ -49,6 +50,12 @@ public class FilmModel {
     @Column(name = "last_update")
     Timestamp lastUpdate;
 
-    @Column(name = "special_features")
-    String specialFeatures;
+//    @Type(StringArrayType.class)
+    @Type(com.personal.pagilarestapi.util.CustomStringArrayType.class)
+    @Column(name = "special_features", columnDefinition = "text[]")
+    String[] specialFeatures;
+
+//    @Type(PostgreSQLTSVectorType.class)
+    @Column(name = "fulltext")
+    String fullText;
 }
